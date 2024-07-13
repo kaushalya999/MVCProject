@@ -4,7 +4,10 @@
  */
 package edu.ijse.mvc.view;
 
+import edu.ijse.mvc.Controller.ItemController;
 import edu.ijse.mvc.dto.ItemDto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -16,11 +19,13 @@ import edu.ijse.mvc.dto.ItemDto;
  */
 public class ItemView extends javax.swing.JFrame {
 
+    private ItemController itemController;
     /**
      * Creates new form ItemView
      */
-    public ItemView() {
+    public ItemView() throws Exception{
         initComponents();
+        itemController = new ItemController();
     }
 
     /**
@@ -230,6 +235,13 @@ public class ItemView extends javax.swing.JFrame {
     private void saveItem(){
         
         ItemDto dto = new ItemDto(txtCode.getText(), txtDiscription.getText(), txtPack.getText(), Double.parseDouble(txtUnit.getText()), Integer.parseInt(txtQoh.getText()));
-        System.out.println(dto.toString());
+        String resp;
+        try {
+            resp = itemController.saveItem(dto);
+            System.out.println(resp);
+        } catch (Exception ex) {
+            Logger.getLogger(ItemView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }
 }
